@@ -1,0 +1,59 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+<script>
+$(document).ready(function(){
+    $("button").click(function(){
+        var myobj = {Name:$("#Name").val(),Comment:$("#Comment").val()};
+       jobj = JSON.stringify(myobj);
+        
+	
+	console.log("GOT HERE");
+	var url = "http://52.11.81.12/comment";
+
+	jQuery.ajax({
+		url: url,
+		type: "POST",
+		data: jobj,
+		dataType: "json",
+		contentType: "application/json; charset=utf-8",
+		success: function(){
+		$("#done").append("Success");
+		}
+	});
+
+
+	$("#json").text(jobj+"HITHERE");
+	
+	var url2 = "http://52.11.81.12/comment";
+	$.getJSON(url2,function(data) {
+	
+       	 var everything;
+       	 everything = "<ul>";
+        $.each(data, function(i,item) {
+        	  everything += "<li> Name: "+data[i].Name+" Comment: "+data[i].Comment;
+        });
+        everything += "</ul>";
+        $("#currentComments").html(everything);
+      });
+		
+    });
+});
+</script>
+</head>
+<body>
+
+<form id="commentForm" action="">
+  Name: <input type="text" id="Name" value="Mickey"><br>
+  comment: <input type="text" id="Comment" value="Hello"><br>
+</form>
+
+<button>Serialize form values</button>
+
+<div id="json"></div>
+<div id="currentComments"></div>
+
+</body>
+</html>
